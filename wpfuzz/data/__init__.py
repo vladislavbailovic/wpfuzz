@@ -33,9 +33,4 @@ class Fuzzdata:
     def get_random_number(start, end):
         return random.randint(start, end)
 
-
-class Basic_Fuzzdata(Fuzzdata):
-    def get_fuzz_data(self):
-        yield (Fuzzdata.get_random_ascii_string(), Fuzzdata.get_random_ascii_string())
-
-
+from .basic import *
