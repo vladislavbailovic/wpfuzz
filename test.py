@@ -11,7 +11,9 @@ class Fuzzer:
         self.caller = caller
         self.action = action
         self.fuzzers = [
-            data.Basic_Fuzzdata({"action": action})
+            data.Basic_Fuzzdata({"action": action}),
+            data.LargeKey_Fuzzdata({"action": action}),
+            data.LargeValue_Fuzzdata({"action": action}),
         ]
 
     def fuzz(self, iters=5):
@@ -46,10 +48,13 @@ class Caller:
         )
 
     def report(self, resp, data, is_auth=False):
+        def trunc(what):
+            return what[:32] + '...' if len(what) > 32 else what
         status = resp.status_code
         auth = "Authenticated" if is_auth else "Visitor"
+        printable = {trunc(key): trunc(val) for (key,val) in data.items()}
         print("{} {} [{}]".format(auth, resp.request.method, status))
-        print(data)
+        print("{} (Length: {})".format(printable, len("{}".format(data))))
         print("{}\n".format(resp.text))
 
     def ajax_call(self, data=None):
