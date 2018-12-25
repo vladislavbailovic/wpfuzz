@@ -25,54 +25,20 @@ class Caller:
             data={"log": self.user, "pwd": self.pwd}
         )
 
-    def report(self, resp, data, is_auth=False):
-        def trunc(what):
-            return what[:32] + '...' if len(what) > 32 else what
-        status = resp.status_code
-        auth = "Authenticated" if is_auth else "Visitor"
-        printable = {trunc(key): trunc(val) for (key,val) in data.items()}
-        print("{} {} [{}]".format(auth, resp.request.method, status))
-        print("{} (Length: {})".format(printable, len("{}".format(data))))
-        print("{}\n".format(resp.text))
-
     def ajax_call(self, data=None):
-        self.report(self.ajax_call_nopriv(self.POST, data), data, False)
-        self.report(self.ajax_call_nopriv(self.GET, data), data, False)
-        self.report(self.ajax_call_priv(self.POST, data), data, True)
-        self.report(self.ajax_call_priv(self.GET, data), data, True)
+        yield(self.ajax_post(self.noauth, data), False)
+        yield(self.ajax_get(self.noauth, data), False)
+        yield(self.ajax_post(self.auth, data), True)
+        yield(self.ajax_get(self.auth, data), True)
 
-    def ajax_call_priv(self, method, data=None):
-        if self.POST == method:
-            return self.ajax_post_priv(data)
-
-        return self.ajax_get_priv(data)
-
-    def ajax_call_nopriv(self, method, data=None):
-        if self.POST == method:
-            return self.ajax_post_nopriv(data)
-
-        return self.ajax_get_nopriv(data)
-
-    def ajax_post_priv(self, data=None):
-        return self.auth.post(
+    def ajax_post(self, req, data=None):
+        return req.post(
             self.make_url('wp-admin/admin-ajax.php'),
             data=data
         )
 
-    def ajax_get_priv(self, data=None):
-        return self.auth.get(
-            self.make_url('wp-admin/admin-ajax.php'),
-            params=data
-        )
-
-    def ajax_post_nopriv(self, data=None):
-        return self.noauth.post(
-            self.make_url('wp-admin/admin-ajax.php'),
-            data=data
-        )
-
-    def ajax_get_nopriv(self, data=None):
-        return self.noauth.get(
+    def ajax_get(self, req, data=None):
+        return req.get(
             self.make_url('wp-admin/admin-ajax.php'),
             params=data
         )

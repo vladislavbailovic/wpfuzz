@@ -2,6 +2,17 @@ from wpfuzz import data
 from wpfuzz.request import ajax
 
 
+def report(resp, is_auth=False, data=data):
+    def trunc(what):
+        return what[:32] + '...' if len(what) > 32 else what
+    status = resp.status_code
+    auth = "Authenticated" if is_auth else "Visitor"
+    printable = {trunc(key): trunc(val) for (key,val) in data.items()}
+    print("{} {} [{}]".format(auth, resp.request.method, status))
+    print("{} (Length: {})".format(printable, len("{}".format(data))))
+    print("{}\n".format(resp.text))
+
+
 class Fuzzer:
     fuzzers = None
     caller = None
@@ -13,14 +24,15 @@ class Fuzzer:
         self.fuzzers = [
             data.Basic_Fuzzdata({"action": action}),
             data.LargeKey_Fuzzdata({"action": action}),
-            data.LargeValue_Fuzzdata({"action": action}),
+            #data.LargeValue_Fuzzdata({"action": action}),
         ]
 
     def fuzz(self, iters=5):
         for idx in range(1, iters):
             for fuzzdata in self.fuzzers:
                 data = fuzzdata.get_data()
-                self.caller.ajax_call(data)
+                for result in self.caller.ajax_call(data):
+                    report(*result, data=data)
 
 
 
