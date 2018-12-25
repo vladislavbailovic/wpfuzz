@@ -5,13 +5,14 @@ class Reporter:
 
     def __init__(self, identifier):
         self.identifier = identifier
+        self.results = []
 
-    def add_result(self, resp, is_auth=False, data=None):
-        data = data if data else {}
+    def add_result(self, resp, is_auth=False, original=None):
+        original = original if original else {}
         self.results.append({
             'response': resp,
             'auth': is_auth,
-            'data': data
+            'original': original
         })
 
     def report(self):
@@ -22,7 +23,7 @@ class Reporter:
         for r in self.results:
             status = r.get('response').status_code
             auth = "Authenticated" if r.get('auth') else "Visitor"
-            printable = {trunc(key): trunc(val) for (key,val) in r.get('data').items()}
+            printable = {trunc(key): trunc(val) for (key,val) in r.get('original').items()}
             print("{} {} [{}]".format(auth, r.get('response').request.method, status))
-            print("{} (Length: {})".format(printable, len("{}".format(r.get('data')))))
+            print("{} (Length: {})".format(printable, len("{}".format(r.get('original')))))
             print("{}\n".format(r.get('response').text))

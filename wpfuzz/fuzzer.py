@@ -11,7 +11,7 @@ class Fuzzer:
         self.action = action
         self.fuzzers = [
             data.Basic_Fuzzdata({"action": action}),
-            data.LargeKey_Fuzzdata({"action": action}),
+            #data.LargeKey_Fuzzdata({"action": action}),
             #data.LargeValue_Fuzzdata({"action": action}),
         ]
 
@@ -22,6 +22,6 @@ class Fuzzer:
             for fuzzdata in self.fuzzers:
                 fuzz = fuzzdata.get_data()
                 for result in self.caller.ajax_call(fuzz):
-                    report.add_result(*result, data=fuzz)
+                    report.add_result(*result, original=fuzz)
         return report
 

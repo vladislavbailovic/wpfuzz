@@ -26,10 +26,12 @@ class Caller:
         )
 
     def ajax_call(self, data=None):
-        yield(self.ajax_post(self.noauth, data), False)
-        yield(self.ajax_get(self.noauth, data), False)
-        yield(self.ajax_post(self.auth, data), True)
-        yield(self.ajax_get(self.auth, data), True)
+        return (
+            (self.ajax_post(self.noauth, data), False),
+            (self.ajax_get(self.noauth, data), False),
+            (self.ajax_post(self.auth, data), True),
+            (self.ajax_get(self.auth, data), True)
+        )
 
     def ajax_post(self, req, data=None):
         return req.post(
