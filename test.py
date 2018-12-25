@@ -48,8 +48,9 @@ class Caller:
     def report(self, resp, data, is_auth=False):
         status = resp.status_code
         auth = "Authenticated" if is_auth else "Visitor"
-        print("{} {} with {}".format(auth, resp.request.method, data))
-        print("[{}] {}\n".format(status, resp.text))
+        print("{} {} [{}]".format(auth, resp.request.method, status))
+        print(data)
+        print("{}\n".format(resp.text))
 
     def ajax_call(self, data=None):
         self.report(self.ajax_call_nopriv(self.POST, data), data, False)
