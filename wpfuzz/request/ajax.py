@@ -10,7 +10,7 @@ class Caller:
     auth = requests.Session()
     noauth = requests.Session()
 
-    def __init__(self, domain, user, pwd):
+    def __init__(self, domain, user=None, pwd=None):
         self.domain = domain
         self.user = user
         self.pwd = pwd
@@ -20,18 +20,28 @@ class Caller:
         return self.domain.rstrip('/') + '/' + path.lstrip('/')
 
     def log_in(self):
+        if not self.user or not self.pwd:
+            self.auth = None
+            return None
+
         self.auth.post(
             self.make_url('wp-login.php'),
             data={"log": self.user, "pwd": self.pwd}
         )
 
     def ajax_call(self, data=None):
-        return (
+        reqs = [
             (self.ajax_post(self.noauth, data), False),
             (self.ajax_get(self.noauth, data), False),
-            (self.ajax_post(self.auth, data), True),
-            (self.ajax_get(self.auth, data), True)
-        )
+        ]
+        if self.auth:
+            reqs.append(
+                (self.ajax_post(self.auth, data), True)
+            )
+            reqs.append(
+                (self.ajax_get(self.auth, data), True)
+            )
+        return reqs
 
     def ajax_post(self, req, data=None):
         return req.post(
