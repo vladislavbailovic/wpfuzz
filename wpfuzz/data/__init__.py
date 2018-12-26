@@ -35,4 +35,5 @@ class Fuzzdata:
         return random.randint(start, end)
 
 from .basic import *
+from .fixkeys import *
 from .large import *

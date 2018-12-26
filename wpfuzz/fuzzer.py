@@ -10,7 +10,8 @@ class Fuzzer:
         self.caller = caller
         self.action = action
         self.fuzzers = [
-            data.Basic_Fuzzdata({"action": action}),
+            #data.Basic_Fuzzdata({"action": action}),
+            data.Fixkeys_Fuzzdata({"action": action}),
             #data.LargeKey_Fuzzdata({"action": action}),
             #data.LargeValue_Fuzzdata({"action": action}),
         ]
