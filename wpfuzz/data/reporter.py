@@ -60,8 +60,6 @@ class Reporter:
             "{}\n".format(response)
         ])
 
-
-
     def report(self):
         print("Checked {}".format(self.identifier), end='')
         has_report = False
