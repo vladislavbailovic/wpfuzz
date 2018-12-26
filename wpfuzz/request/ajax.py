@@ -3,17 +3,18 @@ import requests
 
 class Caller:
 
-    cookies = {}
     POST = 'POST'
     GET = 'GET'
 
-    auth = requests.Session()
-    noauth = requests.Session()
 
     def __init__(self, domain, user=None, pwd=None):
         self.domain = domain
         self.user = user
         self.pwd = pwd
+
+        self.auth = requests.Session()
+        self.noauth = requests.Session()
+
         self.log_in()
 
     def make_url(self, path):

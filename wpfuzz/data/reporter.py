@@ -37,8 +37,7 @@ class Reporter:
                     continue
                 response = truncdict(json_resp)
             except:
-                pass
-                response = trunc(response, 64)
+                response = trunc(response.strip(), 64)
 
             auth = "Authenticated" if r.get('auth') else "Visitor"
             printable = truncdict(r.get('original').items())
