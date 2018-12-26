@@ -25,10 +25,13 @@ class Caller:
             self.auth = None
             return None
 
-        self.auth.post(
+        r = self.auth.post(
             self.make_url('wp-login.php'),
             data={"log": self.user, "pwd": self.pwd}
         )
+        if r.url.find("wp-login.php") != -1:
+            print("Unable to log in with supplied credentials")
+            self.auth = None
 
     def ajax_call(self, data=None):
         reqs = [
