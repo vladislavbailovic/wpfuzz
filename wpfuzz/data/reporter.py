@@ -17,7 +17,7 @@ class Reporter:
             'original': original
         })
 
-    def report(self):
+    def report(self, include_errors=False, include_success=True):
         def trunc(what, length=32):
             return what[:length] + '...' if len(what) > length else what
 
@@ -28,17 +28,21 @@ class Reporter:
         has_report = False
         for r in self.results:
             status = r.get('response').status_code
-            if 200 != status:
-                continue
+            is_success = 200 == status
 
             response = r.get('response').text
             try:
                 json_resp = json.loads(response)
                 if "success" in json_resp and not json_resp.get("success"):
-                    continue
+                    is_success = False
                 response = truncdict(json_resp)
             except:
                 response = trunc(response.strip(), 64)
+
+            if is_success and not include_success:
+                continue
+            elif not is_success and not include_errors:
+                continue
 
             auth = "Authenticated" if r.get('auth') else "Visitor"
             printable = truncdict(r.get('original').items())
