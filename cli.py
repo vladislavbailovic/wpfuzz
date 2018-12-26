@@ -3,8 +3,36 @@ import os.path
 import sys
 
 from wpfuzz.request import ajax
-from wpfuzz import fuzzer
-from wpfuzz import discovery
+from wpfuzz import fuzzer, discovery, data
+
+def get_known_fuzzdata():
+    return {
+        'basic': data.Basic_Fuzzdata,
+        'fixkey': data.Fixkeys_Fuzzdata,
+        'largekey': data.LargeKey_Fuzzdata,
+        'largedata': data.LargeValue_Fuzzdata,
+    }
+
+
+def get_comma_separated_array(what):
+    result = []
+    if len(what):
+        if what.find(",") != -1:
+            return what.split(",")
+        result = [what]
+    return result
+
+def valid_fuzzers(fzrs):
+    fzrs = get_comma_separated_array(fzrs)
+    valid = get_known_fuzzdata().keys()
+    if not fzrs:
+        fzrs = valid
+
+    for f in fzrs:
+        if not f in valid:
+            raise argparse.ArgumentTypeError("Invalid fuzzer: {}".format(f))
+
+    return fzrs
 
 def valid_domain(domain):
     if domain.find("http") != 0:
@@ -15,11 +43,7 @@ def valid_actions(actions):
     if os.path.isfile(actions):
         with open(actions, 'r') as f:
             return f.readlines()
-    result = []
-    if actions.find(",") != -1:
-        result = actions.split(",")
-    elif len(actions):
-        result = [actions]
+    result = get_comma_separated_array(actions)
 
     if not result:
         raise argparse.ArgumentTypeError('Actions are invalid')
@@ -31,16 +55,23 @@ def valid_actions(actions):
 parser = argparse.ArgumentParser()
 parser.add_argument("domain", metavar="DOMAIN", type=valid_domain,
                     help="Domain to check")
-parser.add_argument("-d", "--discover", dest="plugin_dir",
-                    help="Discover AJAX actions from DIR", metavar="DIR")
 parser.add_argument("-u", "--user", dest="username",
                     help="WP user name", metavar="USER")
 parser.add_argument("-p", "--password", dest="password",
                     help="WP password", metavar="PASS")
-parser.add_argument("-i", "--iters", dest="iterations", default=5,
-                    help="Fuzz iterations", metavar="ITER", type=int)
+
 parser.add_argument("-a", "--actions", dest="actions", type=valid_actions,
                     help="Comma-separated AJAX actions to fuzz or file to check", metavar="actions")
+parser.add_argument("-d", "--discover", dest="plugin_dir",
+                    help="Discover AJAX actions from DIR", metavar="DIR")
+
+parser.add_argument("-i", "--iters", dest="iterations", default=5,
+                    help="Fuzz iterations", metavar="ITER", type=int)
+parser.add_argument("-f", "--fuzz", dest="fuzzers", type=valid_fuzzers,
+                    default=",".join(get_known_fuzzdata().keys()),
+                    help="Fuzz data source(s), one of {}".format(get_known_fuzzdata().keys()),
+                    metavar="FUZZDATA")
+
 parser.add_argument("-is", "--ignore_success", dest="ignore_success", action="store_false",
                     help="Ignore success report", default=False)
 parser.add_argument("-re", "--report_errors", dest="report_errors", action="store_true",
@@ -68,6 +99,7 @@ x = ajax.Caller(
 )
 for action in actions:
     f = fuzzer.Fuzzer(x, action)
+    f.fuzzers = [get_known_fuzzdata()[f] for f in args.fuzzers]
     reporter = f.fuzz(args.iterations)
 
     reporter.include_errors = args.report_errors
