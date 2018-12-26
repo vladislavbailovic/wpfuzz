@@ -24,7 +24,8 @@ class Reporter:
         def truncdict(what):
             return {trunc(key): trunc(val) for (key,val) in what}
 
-        print("Report for {}".format(self.identifier))
+        print("Checked {}".format(self.identifier), end='')
+        has_report = False
         for r in self.results:
             status = r.get('response').status_code
             if 200 != status:
@@ -41,6 +42,14 @@ class Reporter:
 
             auth = "Authenticated" if r.get('auth') else "Visitor"
             printable = truncdict(r.get('original').items())
+
+            if not has_report:
+                print("\n--------------------------------------------------")
+                has_report = True
+
             print("{} {} [{}]".format(auth, r.get('response').request.method, status))
             print("{} (Length: {})".format(printable, len("{}".format(r.get('original')))))
             print("{}\n".format(response))
+
+        if not has_report:
+            print(": [OK]")
