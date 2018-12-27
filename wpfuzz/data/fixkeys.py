@@ -19,12 +19,10 @@ class Fixkeys_Fuzzdata(Fuzzdata):
 
     def get_raw_keys():
         sufixes = ['post', 'user']
-        keys = ['id'];
+        keys = ['id']
         for sfx in sufixes:
-            keys.append( "{}_id".format(sfx) )
-            keys.append( "{}id".format(sfx) )
-            keys.append( "{}Id".format(sfx) )
+            keys.append("{}_id".format(sfx))
+            keys.append("{}id".format(sfx))
+            keys.append("{}Id".format(sfx))
 
         return keys
-
-
