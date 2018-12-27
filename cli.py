@@ -69,8 +69,11 @@ parser.add_argument("-i", "--iters", dest="iterations", default=5,
                     help="Fuzz iterations", metavar="ITER", type=int)
 parser.add_argument("-f", "--fuzz", dest="fuzzers", type=valid_fuzzers,
                     default=",".join(get_known_fuzzdata().keys()),
-                    help="Fuzz data source(s), one of {}".format(get_known_fuzzdata().keys()),
+                    help="Fuzz data source(s), one of {}".format(list(get_known_fuzzdata().keys())),
                     metavar="FUZZDATA")
+
+parser.add_argument("-o", "--output", dest="format", default="console",
+                    help="Output format", metavar="FORMAT", choices=['console', 'json'])
 
 parser.add_argument("-is", "--ignore_success", dest="ignore_success", action="store_false",
                     help="Ignore success report", default=False)
@@ -106,7 +109,7 @@ for action in actions:
     reporter.include_rejected = args.report_rejections
     reporter.include_success = not args.ignore_success
 
-    is_reported = reporter.report()
+    is_reported = reporter.report(args.format)
     if is_reported:
         calls_reported.append(action)
 

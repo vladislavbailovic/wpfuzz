@@ -16,10 +16,11 @@ class ReporterProxy(Reporter):
             return rpts[fmt]
         return None
 
-    def report(self, fmt="json"):
+    def report(self, fmt="console"):
         rpt = self.get_format_reporter(fmt)
         if not rpt:
-            raise "Unknown format"
+            print("Unknown format: {}".format(fmt))
+            return None
 
         reporter = rpt(self.identifier)
         reporter.results = self.results
@@ -27,5 +28,5 @@ class ReporterProxy(Reporter):
         reporter.include_errors = self.include_errors
         reporter.include_rejected = self.include_rejected
 
-        reporter.report()
+        return reporter.report()
 
