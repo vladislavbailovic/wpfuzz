@@ -1,5 +1,4 @@
 import random
-from . import reporter
 
 class Fuzzdata:
 

@@ -1,4 +1,5 @@
 from . import data
+from . import reporter
 
 
 class Fuzzer:
@@ -17,7 +18,7 @@ class Fuzzer:
         ]
 
     def fuzz(self, iters=5):
-        report = data.reporter.Reporter(self.action)
+        report = reporter.ReporterProxy(self.action)
 
         for idx in range(1, iters):
             for fuzzdata_class in self.fuzzers:
