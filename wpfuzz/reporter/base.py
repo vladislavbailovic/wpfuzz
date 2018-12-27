@@ -4,7 +4,7 @@ class Reporter:
 
     identifier = None
     results = []
-    
+ 
     def get_proxied_result(self, result):
         pass
 
@@ -38,19 +38,21 @@ class Reporter:
 
     def get_report(self, result):
         status = result.get('response').status_code
-        is_success = 200 == status
+        is_success = status == 200
 
         response = result.get('response').text
         try:
             json_resp = json.loads(response)
+            if "success" in json_resp and not json_resp.get("success"):
+                is_success = False
         except:
-            response = response.strip()
+            pass
 
         if is_success:
             if not self.include_success:
                 return None
         else:
-            is_rejected = 400 == status and '0' == response.strip()
+            is_rejected = status == 400 and response.strip() == '0'
             if is_rejected and not self.include_rejected:
                 return None
             elif not is_rejected:

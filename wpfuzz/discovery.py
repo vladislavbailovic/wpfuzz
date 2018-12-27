@@ -31,4 +31,3 @@ def get_ajax(source_dir):
                 ajax_calls.append(action)
 
     return ajax_calls
-

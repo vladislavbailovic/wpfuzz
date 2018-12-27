@@ -1,3 +1,4 @@
+import json
 from string import Template
 from .base import Reporter
 
@@ -8,7 +9,7 @@ class Console_Reporter(Reporter):
             return what[:length] + '...' if len(what) > length else what
 
         def truncdict(what):
-            return {trunc(key): trunc(val) for (key,val) in what}
+            return {trunc(key): trunc(val) for (key, val) in what}
 
         status = result.get('response').status_code
 

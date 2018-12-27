@@ -27,4 +27,3 @@ class Fuzzer:
                 for result in self.caller.ajax_call(fuzz):
                     report.add_result(*result, original=fuzz)
         return report
-

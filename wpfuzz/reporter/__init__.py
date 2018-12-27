@@ -29,4 +29,3 @@ class ReporterProxy(Reporter):
         reporter.include_rejected = self.include_rejected
 
         return reporter.report()
-
