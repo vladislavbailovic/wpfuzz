@@ -21,7 +21,7 @@ class Fuzzer:
         report = reporter.ReporterProxy(self.action)
         fuzzers = [f({"action": self.action}) for f in self.fuzzers]
 
-        for idx in range(1, iters):
+        for idx in range(0, iters):
             for fuzzdata in fuzzers:
                 fuzz = fuzzdata.get_data()
                 for result in self.caller.ajax_call(fuzz):
