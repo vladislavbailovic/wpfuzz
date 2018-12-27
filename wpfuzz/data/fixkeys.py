@@ -1,4 +1,4 @@
-from . import Fuzzdata
+from .base import Fuzzdata
 
 class Fixkeys_Fuzzdata(Fuzzdata):
     def __init__(self, data):

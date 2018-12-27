@@ -1,4 +1,4 @@
-from . import Fuzzdata
+from .base import Fuzzdata
 
 class Basic_Fuzzdata(Fuzzdata):
     def get_fuzz_data(self):
