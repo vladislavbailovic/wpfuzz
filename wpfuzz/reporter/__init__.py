@@ -1,12 +1,13 @@
 from .base import Reporter
 from .console import Console_Reporter
+from .json import Json_Reporter
 
 class ReporterProxy(Reporter):
 
     def get_reporter_formats(self):
         return {
             "console": Console_Reporter,
-            #"json": Json_Reporter,
+            "json": Json_Reporter,
         }
 
     def get_format_reporter(self, fmt):
@@ -15,7 +16,7 @@ class ReporterProxy(Reporter):
             return rpts[fmt]
         return None
 
-    def report(self, fmt="console"):
+    def report(self, fmt="json"):
         rpt = self.get_format_reporter(fmt)
         if not rpt:
             raise "Unknown format"

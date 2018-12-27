@@ -34,8 +34,9 @@ class Console_Reporter(Reporter):
     def print_header(self):
         print("Checked {}".format(self.identifier), end='')
 
-    def print_header_status(self):
-        print(": [OK]")
+    def print_header_status(self, has_report):
+        if not has_report:
+            print(": [OK]")
 
     def print_delimiter(self):
         print("\n--------------------------------------------------")

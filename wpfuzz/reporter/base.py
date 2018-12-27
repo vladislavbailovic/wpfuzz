@@ -11,7 +11,7 @@ class Reporter:
     def print_header(self):
         pass
 
-    def print_header_status(self):
+    def print_header_status(self, has_report):
         pass
 
     def print_delimiter(self):
@@ -75,7 +75,6 @@ class Reporter:
                     has_report = True
                 self.print_result_line(result)
 
-        if not has_report:
-            self.print_header_status()
+        self.print_header_status(has_report)
 
         return has_report
