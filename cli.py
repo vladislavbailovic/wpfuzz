@@ -78,8 +78,8 @@ parser.add_argument("-o", "--output", dest="format", default="console",
 parser.add_argument("-s", "--summary", dest="summary", action="store_true",
                     help="Print actions summary", default=False)
 
-parser.add_argument("-is", "--ignore_success", dest="ignore_success", action="store_false",
-                    help="Ignore success report", default=False)
+parser.add_argument("-rs", "--report_success", dest="report_success", action="store_false",
+                    help="Include success in report", default=True)
 parser.add_argument("-re", "--report_errors", dest="report_errors", action="store_true",
                     help="Include errors in report", default=False)
 parser.add_argument("-rr", "--report_rejections", dest="report_rejections", action="store_true",
@@ -106,7 +106,7 @@ x = ajax.Caller(
 reporter = report.get_format_reporter(args.format)
 reporter.include_errors = args.report_errors
 reporter.include_rejected = args.report_rejections
-reporter.include_success = not args.ignore_success
+reporter.include_success = args.report_success
 
 reporter.print_header()
 for action in actions:
