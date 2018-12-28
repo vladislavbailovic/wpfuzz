@@ -73,7 +73,8 @@ parser.add_argument("-f", "--fuzz", dest="fuzzers", type=valid_fuzzers,
                     metavar="FUZZDATA")
 
 parser.add_argument("-o", "--output", dest="format", default="console",
-                    help="Output format", metavar="FORMAT", choices=['console', 'json'])
+                    choices=list(report.get_reporter_formats().keys()),
+                    help="Output format", metavar="FORMAT")
 parser.add_argument("-s", "--summary", dest="summary", action="store_true",
                     help="Print actions summary", default=False)
 
