@@ -74,6 +74,8 @@ parser.add_argument("-f", "--fuzz", dest="fuzzers", type=valid_fuzzers,
 
 parser.add_argument("-o", "--output", dest="format", default="console",
                     help="Output format", metavar="FORMAT", choices=['console', 'json'])
+parser.add_argument("-s", "--summary", dest="summary", action="store_true",
+                    help="Print actions summary", default=False)
 
 parser.add_argument("-is", "--ignore_success", dest="ignore_success", action="store_false",
                     help="Ignore success report", default=False)
@@ -113,8 +115,9 @@ for action in actions:
     if is_reported:
         calls_reported.append(action)
 
-print("Reported calls: ", end='')
-if calls_reported:
-    print(calls_reported)
-else:
-    print("None")
+if args.summary:
+    print("Reported calls: ", end='')
+    if calls_reported:
+        print(calls_reported)
+    else:
+        print("None")

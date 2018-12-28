@@ -1,8 +1,8 @@
 import json
 from string import Template
-from .base import Reporter
+from .base import Reporter as BaseReporter
 
-class Console_Reporter(Reporter):
+class Reporter(BaseReporter):
 
     def get_proxied_result(self, result):
         def trunc(what, length=32):

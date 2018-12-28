@@ -1,7 +1,7 @@
 import json
-from .base import Reporter
+from .base import Reporter as BaseReporter
 
-class Json_Reporter(Reporter):
+class Reporter(BaseReporter):
 
     def get_proxied_result(self, result):
         status = result.get('response').status_code

@@ -1,13 +1,12 @@
 from .base import Reporter
-from .console import Console_Reporter
-from .json import Json_Reporter
+from . import console, json
 
 class ReporterProxy(Reporter):
 
     def get_reporter_formats(self):
         return {
-            "console": Console_Reporter,
-            "json": Json_Reporter,
+            "console": console.Reporter,
+            "json": json.Reporter,
         }
 
     def get_format_reporter(self, fmt):
