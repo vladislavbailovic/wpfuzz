@@ -17,7 +17,7 @@ def get_ajax_action_from_line(line):
     if end > 0 and end > start:
         ajax_call = line[start:end]
 
-    if ajax_call and ajax_call[-1] != '_' and -1 == ajax_call.find("%s"):
+    if ajax_call and ajax_call[-1] != '_' and -1 == ajax_call.find("%s") and -1 == ajax_call.find("$"):
         return ajax_call.replace("wp_ajax_", "", 1).replace("nopriv_", "", 1)
 
     return None
