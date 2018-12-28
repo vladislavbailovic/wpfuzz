@@ -8,7 +8,13 @@ class Reporter:
     def print_header(self):
         pass
 
-    def print_header_status(self, has_report):
+    def print_footer(self):
+        pass
+
+    def print_result_header(self):
+        pass
+
+    def print_result_header_status(self, has_report):
         pass
 
     def print_delimiter(self):
@@ -55,7 +61,7 @@ class Reporter:
     def report(self):
         if not self.model:
             return None
-        self.print_header()
+        self.print_result_header()
         has_report = False
         for r in self.model.results:
             result = self.get_report(r)
@@ -65,6 +71,6 @@ class Reporter:
                     has_report = True
                 self.print_result_line(result)
 
-        self.print_header_status(has_report)
+        self.print_result_header_status(has_report)
 
         return has_report

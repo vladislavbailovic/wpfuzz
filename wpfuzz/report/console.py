@@ -32,10 +32,10 @@ class Reporter(BaseReporter):
             "response": response,
         }
 
-    def print_header(self):
+    def print_result_header(self):
         print("Checked {}".format(self.model.identifier), end='')
 
-    def print_header_status(self, has_report):
+    def print_result_header_status(self, has_report):
         if not has_report:
             print(": [OK]")
 

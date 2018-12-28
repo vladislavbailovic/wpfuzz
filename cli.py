@@ -107,6 +107,7 @@ reporter.include_errors = args.report_errors
 reporter.include_rejected = args.report_rejections
 reporter.include_success = not args.ignore_success
 
+reporter.print_header()
 for action in actions:
     f = fuzzer.Fuzzer(x, action)
     f.fuzzers = [get_known_fuzzdata()[f] for f in args.fuzzers]
@@ -116,6 +117,8 @@ for action in actions:
     is_reported = reporter.report()
     if is_reported:
         calls_reported.append(action)
+
+reporter.print_footer()
 
 if args.summary:
     print("Reported calls: ", end='')
