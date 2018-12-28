@@ -4,9 +4,10 @@ class Fixkeys_Fuzzdata(Fuzzdata):
     def __init__(self, data):
         super().__init__(data)
         self.key_idx = 0
+        self.value_type = 'number'
 
     def get_fuzz_data(self):
-        yield (self.get_key(), Fuzzdata.get_random_ascii_string())
+        yield (self.get_key(), self.get_value())
 
     def get_key(self):
         keys = Fixkeys_Fuzzdata.get_raw_keys()
@@ -15,7 +16,13 @@ class Fixkeys_Fuzzdata(Fuzzdata):
             self.key_idx += 1
         else:
             self.key_idx = 0
+            self.value_type = 'string' if self.value_type == 'number' else 'number'
         return key
+
+    def get_value(self):
+        return \
+            Fuzzdata.get_random_ascii_string() if self.value_type == 'string' \
+            else Fuzzdata.get_random_number(1, 1312)
 
     def get_raw_keys():
         sufixes = ['post', 'user']
