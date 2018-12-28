@@ -42,7 +42,7 @@ def valid_domain(domain):
 def valid_actions(actions):
     if os.path.isfile(actions):
         with open(actions, 'r') as f:
-            return f.readlines()
+            return [line.strip() for line in f.readlines()]
     result = get_comma_separated_array(actions)
 
     if not result:
