@@ -27,7 +27,7 @@ def get_ajax(source_dir):
     for f in get_next_php_file(source_dir):
         for line in f.readlines():
             action = get_ajax_action_from_line(line)
-            if action:
+            if action and not action in ajax_calls:
                 ajax_calls.append(action)
 
     return ajax_calls
