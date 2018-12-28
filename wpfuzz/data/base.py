@@ -32,4 +32,3 @@ class Fuzzdata:
 
     def get_random_number(start, end):
         return random.randint(start, end)
-

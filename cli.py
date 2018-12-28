@@ -3,7 +3,7 @@ import os.path
 import sys
 
 from wpfuzz.request import ajax
-from wpfuzz import fuzzer, discovery, data
+from wpfuzz import fuzzer, discovery, data, report
 
 def get_known_fuzzdata():
     return {
@@ -102,16 +102,18 @@ x = ajax.Caller(
     args.username,
     args.password
 )
+reporter = report.get_format_reporter(args.format)
+reporter.include_errors = args.report_errors
+reporter.include_rejected = args.report_rejections
+reporter.include_success = not args.ignore_success
+
 for action in actions:
     f = fuzzer.Fuzzer(x, action)
     f.fuzzers = [get_known_fuzzdata()[f] for f in args.fuzzers]
-    reporter = f.fuzz(args.iterations)
+    report_model = f.fuzz(args.iterations)
 
-    reporter.include_errors = args.report_errors
-    reporter.include_rejected = args.report_rejections
-    reporter.include_success = not args.ignore_success
-
-    is_reported = reporter.report(args.format)
+    reporter.model = report_model
+    is_reported = reporter.report()
     if is_reported:
         calls_reported.append(action)
 

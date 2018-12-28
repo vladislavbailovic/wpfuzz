@@ -1,9 +1,6 @@
 import json
 
 class Reporter:
-
-    identifier = None
-    results = []
  
     def get_proxied_result(self, result):
         pass
@@ -20,21 +17,10 @@ class Reporter:
     def get_result_format(self):
         pass
 
-    def __init__(self, identifier):
-        self.identifier = identifier
-        self.results = []
-
+    def __init__(self):
         self.include_success = True
         self.include_errors = False
         self.include_rejected = False
-
-    def add_result(self, resp, is_auth=False, original=None):
-        original = original if original else {}
-        self.results.append({
-            'response': resp,
-            'auth': is_auth,
-            'original': original
-        })
 
     def get_report(self, result):
         status = result.get('response').status_code
@@ -67,9 +53,11 @@ class Reporter:
         print(fmt.substitute(**proxy))
 
     def report(self):
+        if not self.model:
+            return None
         self.print_header()
         has_report = False
-        for r in self.results:
+        for r in self.model.results:
             result = self.get_report(r)
             if result:
                 if not has_report:

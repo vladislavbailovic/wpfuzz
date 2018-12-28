@@ -33,7 +33,7 @@ class Reporter(BaseReporter):
         }
 
     def print_header(self):
-        print("Checked {}".format(self.identifier), end='')
+        print("Checked {}".format(self.model.identifier), end='')
 
     def print_header_status(self, has_report):
         if not has_report:
