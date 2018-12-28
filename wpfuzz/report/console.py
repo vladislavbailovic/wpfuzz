@@ -11,7 +11,7 @@ class Reporter(BaseReporter):
         def truncdict(what):
             return {trunc(key): trunc(val) for (key, val) in what}
 
-        status = result.get('response').status_code
+        original = super().get_proxied_result(result)
 
         response = result.get('response').text
         try:
@@ -19,18 +19,10 @@ class Reporter(BaseReporter):
             response = truncdict(json_resp)
         except:
             response = trunc(response.strip(), 64)
+        original['response'] = response
+        original['req_data'] = truncdict(result.get('original').items())
 
-        auth = "Authenticated" if result.get('auth') else "Visitor"
-        printable = truncdict(result.get('original').items())
-
-        return {
-            "auth": auth,
-            "method": result.get('response').request.method,
-            "status": status,
-            "req_data": printable,
-            "req_data_length": len("{}".format(result.get('original'))),
-            "response": response,
-        }
+        return original
 
     def print_result_header(self):
         print("Checked {}".format(self.model.identifier), end='')
