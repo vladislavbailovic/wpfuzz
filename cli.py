@@ -35,7 +35,7 @@ def valid_fuzzers(fzrs):
     return fzrs
 
 def valid_domain(domain):
-    if domain.find("http") != 0:
+    if domain.find("http") != 0 and 'list' != domain:
         raise argparse.ArgumentTypeError("Invalid domain")
     return domain
 
@@ -54,7 +54,7 @@ def valid_actions(actions):
 
 parser = argparse.ArgumentParser()
 parser.add_argument("domain", metavar="DOMAIN", type=valid_domain,
-                    help="Domain to check")
+                    help="Domain to check or 'list' literal command")
 parser.add_argument("-u", "--user", dest="username",
                     help="WP user name", metavar="USER")
 parser.add_argument("-p", "--password", dest="password",
@@ -96,6 +96,10 @@ if args.plugin_dir:
 if not actions:
     print("No actions to check")
     sys.exit(1)
+
+if 'list' == args.domain:
+    [print(a) for a in actions]
+    sys.exit(0)
 
 calls_reported = []
 x = ajax.Caller(
