@@ -27,4 +27,4 @@ class Fixdata_Fuzzdata(Fuzzdata):
         return val
 
     def get_file_content(self):
-        return open('data.json', 'r').read()
+        return open('fuzzdata.json', 'r').read()

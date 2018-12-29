@@ -97,7 +97,7 @@ if args.plugin_dir:
     actions += discovery.get_ajax(args.plugin_dir)
 
 if not actions:
-    print("No actions to check")
+    print("No actions")
     sys.exit(1)
 
 if 'list' == args.domain:
