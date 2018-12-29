@@ -77,6 +77,8 @@ parser.add_argument("-o", "--output", dest="format", default="console",
                     help="Output format", metavar="FORMAT")
 parser.add_argument("-s", "--summary", dest="summary", action="store_true",
                     help="Print actions summary", default=False)
+parser.add_argument("-v", "--verbose", dest="verbose", action="store_true",
+                    help="Be more verbose with output", default=False)
 
 parser.add_argument("-rs", "--report_success", dest="report_success", action="store_false",
                     help="Include success in report", default=True)
@@ -119,7 +121,7 @@ for action in actions:
     report_model = f.fuzz(args.iterations)
 
     reporter.model = report_model
-    is_reported = reporter.report()
+    is_reported = reporter.report(args.verbose)
     if is_reported:
         calls_reported.append(action)
 

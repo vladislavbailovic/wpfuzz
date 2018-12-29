@@ -55,10 +55,13 @@ class Reporter:
         proxy = self.get_proxied_result(result)
         print(fmt.substitute(**proxy))
 
-    def report(self):
+    def report(self, verbose=False):
         if not self.model:
             return None
-        self.print_result_header()
+
+        if verbose:
+            self.print_result_header()
+
         has_report = False
         for r in self.model.results:
             result = self.get_report(r)
@@ -68,7 +71,8 @@ class Reporter:
                     has_report = True
                 self.print_result_line(result)
 
-        self.print_result_header_status(has_report)
+        if verbose:
+            self.print_result_header_status(has_report)
 
         return has_report
 
