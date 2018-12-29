@@ -1,7 +1,7 @@
 WordPress AJAX Action Fuzz Tester
 =================================
 
-Brute-attempt WP AJAX action endpoints and see what sticks.
+Brute- (or scalpel)- attempt WP AJAX action endpoints and see what sticks.
 
 This script can:
 
@@ -17,19 +17,22 @@ Fixed data requests
 
 It is possible to send out requests with fixed data, by creating a `fuzzdata.json` file and specifying `fixdata` data source. Like this:
 
-`cat '[{"key1": "val1"}]' > fuzzdata.json && wpfuzz http://example.com -a test -f fixdata`
+`cat '[{"key1": "val1"}]' > fuzzdata.json && fuzz http://example.com -a test -f fixdata`
 
 
 Usage examples
 --------------
 
-- List actions in current directory: `wpfuzz list -d $(pwd)`
+- List actions in current directory: `fuzz list -d $(pwd)`
 - Make a quick pass for actions from current plugin on example.org:
-	- Visitors only: `wpfuzz example.org -d=$(pwd) -i 1 -f basic`
-	- Auth and visitors: `wpfuzz example.org -d $(pwd) -i 1 -f basic -u <user> -p <pass>`
+	- Visitors only: `fuzz example.org -d=$(pwd) -i 1 -f basic`
+	- Auth and visitors: `fuzz example.org -d $(pwd) -i 1 -f basic -u <user> -p <pass>`
+- Output a list of results for all actions in `actions.txt` file (one action per line, e.g. generated using the `list` command), errors included, to a csv file so it can be sorted by duration time to check for late validation: `fuzz example.org -a actions.txt -re -o csv > fuzz.csv`
 
 
 Expected results
 ----------------
 
 Unless the project is explicitly listening to visitors requests, noauth requests should remain silent in output (either rejected, or failed). The same goes for auth requests with lesser-privileged user (e.g. admin actions with author-level user creds).
+
+Request durations should be fairly short for all failed requests, particulatly the unauth ones (hello, DoS). Additionally, they should be fairly uniform, which might indicate the consistent early validation.
