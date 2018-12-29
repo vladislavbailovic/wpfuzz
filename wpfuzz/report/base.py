@@ -87,6 +87,7 @@ class Reporter:
 
         auth = "Authenticated" if result.get('auth') else "Visitor"
         printable = result.get('original')
+        elapsed = result.get('response').elapsed.total_seconds()
 
         return {
             "auth": auth,
@@ -95,4 +96,5 @@ class Reporter:
             "req_data": printable,
             "req_data_length": len("{}".format(result.get('original'))),
             "response": response,
+            "duration": elapsed
         }

@@ -36,7 +36,7 @@ class Reporter(BaseReporter):
 
     def get_result_format(self):
         return Template("\n".join([
-            "$auth $method [$status]",
+            "$auth $method [$status] (${duration}s)",
             "$req_data (Length: $req_data_length)",
             "$response\n"
         ]))

@@ -19,4 +19,5 @@ class Reporter(BaseReporter):
             "req_data",
             "req_data_length",
             "response",
+            "duration",
         ])
