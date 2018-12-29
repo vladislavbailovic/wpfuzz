@@ -10,9 +10,12 @@ class Fuzzdata:
 
     def get_data(self):
         data = self.data.copy()
-        for item in self.get_fuzz_data():
-            key, value = item
-            data[key] = value
+
+        for nxt in self.get_fuzz_data():
+            for item in nxt:
+                key, value = item
+                data[key] = value
+
         return data
 
     def get_fuzz_data(self):
