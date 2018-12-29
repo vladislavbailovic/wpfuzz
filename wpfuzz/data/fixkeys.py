@@ -7,7 +7,7 @@ class Fixkeys_Fuzzdata(Fuzzdata):
         self.value_type = 'number'
 
     def get_fuzz_data(self):
-        yield (self.get_key(), self.get_value())
+        yield ((self.get_key(), self.get_value()))
 
     def get_key(self):
         keys = Fixkeys_Fuzzdata.get_raw_keys()

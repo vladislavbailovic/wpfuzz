@@ -6,7 +6,7 @@ class Reporter(BaseReporter):
 
     def get_proxied_result(self, result):
         def trunc(what, length=32):
-            return what[:length] + '...' if len(what) > length else what
+            return what[:length] + '...' if len("{}".format(what)) > length else what
 
         def truncdict(what):
             return {trunc(key): trunc(val) for (key, val) in what}
