@@ -116,7 +116,11 @@ reporter.include_rejected = args.report_rejections
 reporter.include_success = args.report_success
 
 reporter.print_header()
+idx = 0
 for action in actions:
+    idx += 1
+    if (args.verbose):
+        print("Action {} ({} of {})".format(action, idx, len(actions)))
     f = fuzzer.Fuzzer(x, action)
     f.fuzzers = [get_known_fuzzdata()[f] for f in args.fuzzers]
     report_model = f.fuzz(args.iterations)
