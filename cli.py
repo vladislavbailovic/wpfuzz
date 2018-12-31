@@ -4,17 +4,6 @@ import sys
 
 from wpfuzz.request import ajax
 from wpfuzz import fuzzer, discovery, data, report
-from wpfuzz.data import basic, fixkeys, fixdata, large
-
-
-def get_known_fuzzdata():
-    return {
-        'basic': data.basic.Fuzzdata,
-        'fixkey': data.fixkeys.Fuzzdata,
-        'fixdata': data.fixdata.Fuzzdata,
-        'largekey': data.large.KeyFuzzdata,
-        'largedata': data.large.ValueFuzzdata,
-    }
 
 
 def get_comma_separated_array(what):
@@ -28,7 +17,7 @@ def get_comma_separated_array(what):
 
 def valid_fuzzers(fzrs):
     fzrs = get_comma_separated_array(fzrs)
-    valid = get_known_fuzzdata().keys()
+    valid = data.get_known_fuzzdata().keys()
     if not fzrs:
         fzrs = valid
 
@@ -74,9 +63,9 @@ parser.add_argument("-d", "--discover", dest="plugin_dir",
 
 parser.add_argument("-i", "--iters", dest="iterations", default=5,
                     help="Fuzz iterations", metavar="ITER", type=int)
-known_fuzzers = list(get_known_fuzzdata().keys())
+known_fuzzers = list(data.get_known_fuzzdata().keys())
 parser.add_argument("-f", "--fuzz", dest="fuzzers", type=valid_fuzzers,
-                    default=",".join(get_known_fuzzdata().keys()),
+                    default=",".join(data.get_known_fuzzdata().keys()),
                     help="Fuzz data source(s), one of {}"
                     .format(known_fuzzers),
                     metavar="FUZZDATA")
@@ -134,7 +123,7 @@ for action in actions:
     if (args.verbose):
         print("Action {} ({} of {})".format(action, idx, len(actions)))
     f = fuzzer.Fuzzer(x, action)
-    f.fuzzers = [get_known_fuzzdata()[f] for f in args.fuzzers]
+    f.fuzzers = [data.get_known_fuzzdata()[f] for f in args.fuzzers]
     report_model = f.fuzz(args.iterations)
 
     reporter.model = report_model
