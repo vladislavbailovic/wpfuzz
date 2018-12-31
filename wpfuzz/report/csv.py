@@ -1,9 +1,11 @@
+"""Render reports in CSV format"""
 import sys
 import csv
 from .base import Reporter as BaseReporter
 
 
 class Reporter(BaseReporter):
+    """CSV report renderer"""
 
     def __init__(self):
         super().__init__()

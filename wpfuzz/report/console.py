@@ -1,9 +1,11 @@
+"""Render reports for the console output"""
 import json
 from string import Template
 from .base import Reporter as BaseReporter
 
 
 class Reporter(BaseReporter):
+    """Console report renderer"""
 
     def get_proxied_result(self, result):
         def trunc(what, length=32):

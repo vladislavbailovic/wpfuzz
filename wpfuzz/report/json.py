@@ -1,8 +1,10 @@
+"""Render reports in JSON format"""
 import json
 from .base import Reporter as BaseReporter
 
 
 class Reporter(BaseReporter):
+    """JSON report renderer"""
 
     def __init__(self):
         super().__init__()

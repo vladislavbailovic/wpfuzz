@@ -1,11 +1,13 @@
+"""Fixed data generator (not really a fuzzer, but useful)."""
 import json
-from .base import Fuzzdata as BaseFuzzdata
+from .base import FixedFuzzdata
 
 
-class Fuzzdata(BaseFuzzdata):
+class Fuzzdata(FixedFuzzdata):
+    """Loops around the preset data source and generates data from that."""
+
     def __init__(self, data):
         super().__init__(data)
-        self.key_idx = 0
         self.json_data = []
 
     def get_fuzz_data(self):
@@ -28,4 +30,5 @@ class Fuzzdata(BaseFuzzdata):
         return val
 
     def get_file_content(self):
+        """Reads the preset file (hardcoded :/) for preset data."""
         return open('fuzzdata.json', 'r').read()

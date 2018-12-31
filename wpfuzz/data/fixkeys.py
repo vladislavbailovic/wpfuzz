@@ -1,10 +1,12 @@
-from .base import Fuzzdata as BaseFuzzdata
+"""Fixed request keys data generator"""
+from .base import FixedFuzzdata
 
 
-class Fuzzdata(BaseFuzzdata):
+class Fuzzdata(FixedFuzzdata):
+    """Generates sets of random values paired with fixed keys"""
+
     def __init__(self, data):
         super().__init__(data)
-        self.key_idx = 0
         self.value_type = 'number'
 
     def get_fuzz_data(self):
@@ -29,6 +31,7 @@ class Fuzzdata(BaseFuzzdata):
             else Fuzzdata.get_random_number(1, 1312)
 
     def get_raw_keys():
+        """Gets the fixed keys list"""
         sufixes = ['post', 'user']
         keys = ['id']
         for sfx in sufixes:

@@ -1,9 +1,15 @@
+"""Fuzz data inheritance root"""
 import random
 
 
 class Fuzzdata:
+    """Basic fuzzdata implementation root"""
 
     data = {}
+
+    def get_fuzz_data(self):
+        """Data generator"""
+        pass
 
     def __init__(self, data=None):
         if data:
@@ -18,9 +24,6 @@ class Fuzzdata:
                 data[key] = value
 
         return data
-
-    def get_fuzz_data(self):
-        pass
 
     def get_random_letter():
         chars = list(range(65, 90)) + list(range(97, 122))
@@ -37,3 +40,11 @@ class Fuzzdata:
 
     def get_random_number(start, end):
         return random.randint(start, end)
+
+
+class FixedFuzzdata(Fuzzdata):
+    """Fixed fuzzdata implementation root"""
+
+    def __init__(self, data):
+        super().__init__(data)
+        self.key_idx = 0
