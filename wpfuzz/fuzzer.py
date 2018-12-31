@@ -11,7 +11,7 @@ class Fuzzer:
         self.caller = caller
         self.action = action
         self.fuzzers = [
-            data.Basic_Fuzzdata,
+            data.basic.Fuzzdata,
         ]
 
     def fuzz(self, iters=5):

@@ -1,8 +1,8 @@
 import json
-from .base import Fuzzdata
+from .base import Fuzzdata as BaseFuzzdata
 
 
-class Fixdata_Fuzzdata(Fuzzdata):
+class Fuzzdata(BaseFuzzdata):
     def __init__(self, data):
         super().__init__(data)
         self.key_idx = 0

@@ -4,15 +4,16 @@ import sys
 
 from wpfuzz.request import ajax
 from wpfuzz import fuzzer, discovery, data, report
+from wpfuzz.data import basic, fixkeys, fixdata, large
 
 
 def get_known_fuzzdata():
     return {
-        'basic': data.Basic_Fuzzdata,
-        'fixkey': data.Fixkeys_Fuzzdata,
-        'fixdata': data.Fixdata_Fuzzdata,
-        'largekey': data.LargeKey_Fuzzdata,
-        'largedata': data.LargeValue_Fuzzdata,
+        'basic': data.basic.Fuzzdata,
+        'fixkey': data.fixkeys.Fuzzdata,
+        'fixdata': data.fixdata.Fuzzdata,
+        'largekey': data.large.KeyFuzzdata,
+        'largedata': data.large.ValueFuzzdata,
     }
 
 
