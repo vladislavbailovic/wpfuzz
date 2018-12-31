@@ -1,30 +1,40 @@
+"""Inheritance parent"""
 import json
 
 
 class Reporter:
+    """Base reporter - output-specific implementations will inherit from this"""
 
     def print_header(self):
+        """Prints report header"""
         pass
 
     def print_footer(self):
+        """Prints report footer"""
         pass
 
     def print_result_header(self):
+        """Prints individual result header"""
         pass
 
     def print_result_header_status(self, has_report):
+        """Prints individual result status, maybe next to header"""
         pass
 
     def print_delimiter(self):
+        """Prints result delimiter"""
         pass
 
     def get_result_format(self):
+        """Gets formatted result, ready for printing"""
         pass
 
     def __init__(self):
         self.include_success = True
         self.include_errors = False
         self.include_rejected = False
+
+        self.model = None
 
     def get_report(self, result):
         status = result.get('response').status_code
