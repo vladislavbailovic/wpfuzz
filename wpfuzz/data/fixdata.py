@@ -18,7 +18,7 @@ class Fuzzdata(FixedFuzzdata):
         if not self.json_data:
             content = self.get_file_content()
             if not content:
-                return None
+                return {}
             self.json_data = json.loads(content)
 
         val = self.json_data[self.key_idx]

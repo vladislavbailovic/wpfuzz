@@ -13,7 +13,7 @@ class Fuzzdata(FixedFuzzdata):
         yield [(self.get_key(), self.get_value())]
 
     def get_key(self):
-        keys = Fixkeys_Fuzzdata.get_raw_keys()
+        keys = Fuzzdata.get_raw_keys()
         key = keys[self.key_idx]
         if self.key_idx < len(keys) - 1:
             self.key_idx += 1
@@ -27,8 +27,8 @@ class Fuzzdata(FixedFuzzdata):
 
     def get_value(self):
         return \
-            Fuzzdata.get_random_ascii_string() if self.value_type == 'string' \
-            else Fuzzdata.get_random_number(1, 1312)
+            FixedFuzzdata.get_random_ascii_string() if self.value_type == 'string' \
+            else FixedFuzzdata.get_random_number(1, 1312)
 
     def get_raw_keys():
         """Gets the fixed keys list"""
