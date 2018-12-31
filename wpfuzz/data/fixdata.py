@@ -1,6 +1,7 @@
 import json
 from .base import Fuzzdata
 
+
 class Fixdata_Fuzzdata(Fuzzdata):
     def __init__(self, data):
         super().__init__(data)

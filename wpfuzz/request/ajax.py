@@ -6,7 +6,6 @@ class Caller:
     POST = 'POST'
     GET = 'GET'
 
-
     def __init__(self, domain, user=None, pwd=None):
         self.domain = domain
         self.user = user

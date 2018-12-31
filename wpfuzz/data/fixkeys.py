@@ -1,5 +1,6 @@
 from .base import Fuzzdata
 
+
 class Fixkeys_Fuzzdata(Fuzzdata):
     def __init__(self, data):
         super().__init__(data)
@@ -16,7 +17,10 @@ class Fixkeys_Fuzzdata(Fuzzdata):
             self.key_idx += 1
         else:
             self.key_idx = 0
-            self.value_type = 'string' if self.value_type == 'number' else 'number'
+            if self.value_type == 'string':
+                self.value_type = 'number'
+            else:
+                self.value_type = 'string'
         return key
 
     def get_value(self):

@@ -1,6 +1,7 @@
 import json
 from .base import Reporter as BaseReporter
 
+
 class Reporter(BaseReporter):
 
     def __init__(self):

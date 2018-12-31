@@ -1,5 +1,7 @@
-import sys, csv, json
+import sys
+import csv
 from .base import Reporter as BaseReporter
+
 
 class Reporter(BaseReporter):
 

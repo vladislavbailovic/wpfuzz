@@ -1,5 +1,6 @@
 from . import console, json, csv
 
+
 def get_reporter_formats():
     return {
         "console": console.Reporter,

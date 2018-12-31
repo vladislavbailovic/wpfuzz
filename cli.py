@@ -5,6 +5,7 @@ import sys
 from wpfuzz.request import ajax
 from wpfuzz import fuzzer, discovery, data, report
 
+
 def get_known_fuzzdata():
     return {
         'basic': data.Basic_Fuzzdata,
@@ -23,6 +24,7 @@ def get_comma_separated_array(what):
         result = [what]
     return result
 
+
 def valid_fuzzers(fzrs):
     fzrs = get_comma_separated_array(fzrs)
     valid = get_known_fuzzdata().keys()
@@ -30,15 +32,17 @@ def valid_fuzzers(fzrs):
         fzrs = valid
 
     for f in fzrs:
-        if not f in valid:
+        if f not in valid:
             raise argparse.ArgumentTypeError("Invalid fuzzer: {}".format(f))
 
     return fzrs
+
 
 def valid_domain(domain):
     if domain.find("http") != 0 and 'list' != domain:
         raise argparse.ArgumentTypeError("Invalid domain")
     return domain
+
 
 def valid_actions(actions):
     if os.path.isfile(actions):
@@ -52,7 +56,6 @@ def valid_actions(actions):
     return result
 
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument("domain", metavar="DOMAIN", type=valid_domain,
                     help="Domain to check or 'list' literal command")
@@ -62,15 +65,19 @@ parser.add_argument("-p", "--password", dest="password",
                     help="WP password", metavar="PASS")
 
 parser.add_argument("-a", "--actions", dest="actions", type=valid_actions,
-                    help="Comma-separated AJAX actions to fuzz or file to check", metavar="actions")
+                    help="Comma-separated AJAX actions " +
+                    "to fuzz or file to check",
+                    metavar="actions")
 parser.add_argument("-d", "--discover", dest="plugin_dir",
                     help="Discover AJAX actions from DIR", metavar="DIR")
 
 parser.add_argument("-i", "--iters", dest="iterations", default=5,
                     help="Fuzz iterations", metavar="ITER", type=int)
+known_fuzzers = list(get_known_fuzzdata().keys())
 parser.add_argument("-f", "--fuzz", dest="fuzzers", type=valid_fuzzers,
                     default=",".join(get_known_fuzzdata().keys()),
-                    help="Fuzz data source(s), one of {}".format(list(get_known_fuzzdata().keys())),
+                    help="Fuzz data source(s), one of {}"
+                    .format(known_fuzzers),
                     metavar="FUZZDATA")
 
 parser.add_argument("-o", "--output", dest="format", default="console",
@@ -81,12 +88,16 @@ parser.add_argument("-s", "--summary", dest="summary", action="store_true",
 parser.add_argument("-v", "--verbose", dest="verbose", action="store_true",
                     help="Be more verbose with output", default=False)
 
-parser.add_argument("-rs", "--report_success", dest="report_success", action="store_false",
+parser.add_argument("-rs", "--report_success",
+                    dest="report_success", action="store_false",
                     help="Include success in report", default=True)
-parser.add_argument("-re", "--report_errors", dest="report_errors", action="store_true",
+parser.add_argument("-re", "--report_errors",
+                    dest="report_errors", action="store_true",
                     help="Include errors in report", default=False)
-parser.add_argument("-rr", "--report_rejections", dest="report_rejections", action="store_true",
-                    help="Include rejected AJAX actions in report", default=False)
+parser.add_argument("-rr", "--report_rejections",
+                    dest="report_rejections",
+                    action="store_true", default=False,
+                    help="Include rejected AJAX actions in report")
 
 
 args = parser.parse_args()

@@ -1,9 +1,11 @@
 import glob
 
+
 def get_next_php_file(source):
     for phpfile in glob.glob(source + "**/*.php", recursive=True):
         with open(phpfile, 'r') as f:
             yield f
+
 
 def get_ajax_action_from_line(line):
     if line.find('wp_ajax') == -1:
@@ -17,17 +19,19 @@ def get_ajax_action_from_line(line):
     if end > 0 and end > start:
         ajax_call = line[start:end]
 
-    if ajax_call and ajax_call[-1] != '_' and -1 == ajax_call.find("%s") and -1 == ajax_call.find("$"):
+    if ajax_call and ajax_call[-1] != '_' \
+       and -1 == ajax_call.find("%s") and -1 == ajax_call.find("$"):
         return ajax_call.replace("wp_ajax_", "", 1).replace("nopriv_", "", 1)
 
     return None
+
 
 def get_ajax(source_dir):
     ajax_calls = []
     for f in get_next_php_file(source_dir):
         for line in f.readlines():
             action = get_ajax_action_from_line(line)
-            if action and not action in ajax_calls:
+            if action and action not in ajax_calls:
                 ajax_calls.append(action)
 
     return ajax_calls

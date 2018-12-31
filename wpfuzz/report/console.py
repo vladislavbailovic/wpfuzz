@@ -2,11 +2,15 @@ import json
 from string import Template
 from .base import Reporter as BaseReporter
 
+
 class Reporter(BaseReporter):
 
     def get_proxied_result(self, result):
         def trunc(what, length=32):
-            return what[:length] + '...' if len("{}".format(what)) > length else what
+            if len("{}".format(what)) > length:
+                return what[:length] + '...'
+            else:
+                return what
 
         def truncdict(what):
             return {trunc(key): trunc(val) for (key, val) in what}

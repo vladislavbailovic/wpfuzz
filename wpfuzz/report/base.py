@@ -1,5 +1,6 @@
 import json
 
+
 class Reporter:
 
     def print_header(self):
